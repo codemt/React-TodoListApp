@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-
+import TodoItems from './todoitems';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 class TodoList extends Component {
         constructor(props){
                 
@@ -8,6 +10,7 @@ class TodoList extends Component {
             this.state = {
                     items : []
             }
+            
 
         }
 
@@ -31,16 +34,35 @@ class TodoList extends Component {
            console.log(this.state.items);
 
     }
+    deleteItem(key){
+            var filteredItems = this.state.items.filter(function(item){
+
+                    return (item.key !== key )
+
+            })
+            this.setState({
+
+                    items : filteredItems
+
+            })
+
+    }
   render() {
     return (
       <div className="todoListMain">
+        <div className="container">
             <div className="header">
                 <form onSubmit={this.addItem.bind(this)}>
                         <input ref={(a)=>this._inputElement = a } placeholder="enter task" />
-                        <button type="submit"> add </button>
+                        <FloatingActionButton type="submit">
+                              <ContentAdd />
+                        </FloatingActionButton>
+                        {/* <button type="submit"> add </button> */}
                 </form>
 
             </div>
+            <TodoItems entries={this.state.items} delete={this.deleteItem.bind(this)} />
+        </div>
       </div>
     )
   }
